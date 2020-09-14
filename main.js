@@ -1,3 +1,13 @@
+class Army() {
+  constructor() {
+    this.soldiers = []
+  }
+}
+
+
+
+
+
 class Card {
   constructor({
     value,
@@ -44,31 +54,39 @@ class Player {
     this.score = this.hand.length
   };
 }
-
 class Game {
   constructor() {
     this.playGame();
   }
   playGame(){
-    let dealt = []
-    dealt.push(player1.hand.splice(0,1), player2.hand.splice(0,1))
-    if(dealt[0][0].value > dealt[1][0].value) {
-      console.log('Player 1 wins!', `Player 1: ${dealt[0][0].value} of ${dealt[0][0].suit} vs Player 2: ${dealt[1][0].value} of ${dealt[1][0].suit}`);
-      player1.hand.push(dealt[0][0], dealt[1][0])
-      dealt = []
-    } else if(dealt[1][0].value > dealt[0][0].value) {
-      console.log('Player 2 wins!', `Player 1: ${dealt[0][0].value} of ${dealt[0][0].suit} vs Player 2: ${dealt[1][0].value} of ${dealt[1][0].suit}`);
-      player2.hand.push(dealt[0][0], dealt[1][0]);
-      dealt = [];
-    } else {
-      console.log('This means War!', `Player 1: ${dealt[0][0].value} of ${dealt[0][0].suit} vs Player 2: ${dealt[1][0].value} of ${dealt[1][0].suit}`);
+    console.log('The armies ready...')
+    // while(player1.hand.length > 0 && player2.hand.length > 0){
+      let dealt = []
+      dealt.push(player1.hand.shift(), player2.hand.shift())
+      // console.log(dealt)
+
+      if(dealt[0].value === dealt[1].value) {
+        war();
+      } else if(dealt[0].value > dealt[1].value) {
+        console.log('P1 wins!');
+        player1.hand.push(dealt.shift(), dealt.shift());
+
+        // console.log('P1 Hand:', player1.hand)
+      } else if(dealt[1].value > dealt[0].value) {
+        console.log('P2 wins!');
+        player2.hand.push(dealt.shift(), dealt.shift());
+
+        // console.log('P2 Hand', player2.hand)
+      }
     }
-  }
+}
+function war(){
+  console.log('This means war!')
+
+
 }
 
 const deck = new Deck();
 const player1 = new Player();
 const player2 = new Player();
 const game = new Game();
-console.log('Player 1 Hand:', player1.hand)
-console.log('Player 2 Hand:', player2.hand)
