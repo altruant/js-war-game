@@ -1,13 +1,12 @@
-class Army() {
-  constructor() {
-    this.soldiers = []
-  }
-}
+// class Army() {
+//   constructor() {
+//     this.soldiers = []
+//   }
+// }
 
-
-
-
-
+let round = 1
+let warDealt = []
+let dealt = []
 class Card {
   constructor({
     value,
@@ -58,33 +57,66 @@ class Game {
   constructor() {
     this.playGame();
   }
-  playGame(){
+  playGame() {
     console.log('The armies ready...')
-    // while(player1.hand.length > 0 && player2.hand.length > 0){
-      let dealt = []
+    while(player1.hand.length > 0 && player2.hand.length > 0){
       dealt.push(player1.hand.shift(), player2.hand.shift())
-      // console.log(dealt)
-
-      if(dealt[0].value === dealt[1].value) {
-        war();
-      } else if(dealt[0].value > dealt[1].value) {
-        console.log('P1 wins!');
-        player1.hand.push(dealt.shift(), dealt.shift());
-
-        // console.log('P1 Hand:', player1.hand)
+      console.log(`Round: ${round}`, `P1: ${dealt[0].value} of ${dealt[0].suit} vs. P2: ${dealt[1].value} of ${dealt[1].suit}`)
+      if(dealt[0].value > dealt[1].value) {
+        console.log(`Player 1 wins the battle!`)
+        dealt.forEach(function(item){
+          player1.hand.push(item);
+        });
+        console.log(`Player 1: `, player1.hand, `Player 2: `, player2.hand)
+        dealt=[];
+        round++;
       } else if(dealt[1].value > dealt[0].value) {
-        console.log('P2 wins!');
-        player2.hand.push(dealt.shift(), dealt.shift());
-
-        // console.log('P2 Hand', player2.hand)
+        console.log(`Player 2 wins the battle!`)
+        dealt.forEach(function(item){
+          player2.hand.push(item);
+        });
+        console.log(`Player 1: `, player1.hand, `Player 2: `, player2.hand)
+        dealt=[];
+        round++;
+      } else if(dealt[0].value === dealt[1].value) {
+        this.war();
       }
     }
+  }
+  war() {
+    console.log(`This means war!!!!`)
+    warDealt.unshift(player1.hand.shift(), player2.hand.shift())
+    warDealt.unshift(player1.hand.shift(), player2.hand.shift())
+    console.log(`Cards face down: `, warDealt)
+    console.log(`War: P1: ${warDealt[2].value} of ${warDealt[2].suit} vs. P2: ${warDealt[3].value} of ${warDealt[3].suit}`)
+    if(warDealt[2].value > warDealt[3].value) {
+      console.log(`Player 1 wins the spoils of war!`)
+      dealt.forEach(function(item){
+        player1.hand.push(item);
+      });
+      dealt=[];
+      warDealt.forEach(function(item){
+        player1.hand.push(item)
+      });
+      warDealt=[];
+      console.log(`Player 1: `, player1.hand, `Player 2: `, player2.hand)
+    } else if(warDealt[3].value > warDealt[2].value) {
+      console.log(`Player 2 wins the spoils of war!`)
+      dealt.forEach(function(item){
+        player2.hand.push(item);
+      });
+      dealt=[];
+      warDealt.forEach(function(item){
+        player2.hand.push(item)
+      });
+      warDealt=[];
+      console.log(`Player 1: `, player1.hand, `Player 2: `, player2.hand)
+    } else if(warDealt[2].value === warDealt[3].value) {
+      this.war();
+    }
+  }
 }
-function war(){
-  console.log('This means war!')
 
-
-}
 
 const deck = new Deck();
 const player1 = new Player();
